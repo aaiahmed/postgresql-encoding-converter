@@ -1,0 +1,10 @@
+postgresql:
+  host: "localhost"
+  port: "5432"
+  user: "etl"
+  database: "pg_sql_ascii_db"
+  tables: ["raw.account"]
+  delimiter: ","
+  unload_qry: "\\copy (select * from {table}) to '{filepath}' with csv header delimiter '{delimiter}';"
+  load_schema: "converted"
+  load_qry: ""

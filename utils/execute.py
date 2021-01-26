@@ -9,9 +9,9 @@ def execute(command):
     """
     Executes the given command.
     :param command: command
-    :return: output, error
+    :return: CompletedProcess.
     """
-    return subprocess.run(command, check=True, stdin=subprocess.PIPE)
+    return subprocess.run(command, check=True, stdout=subprocess.PIPE)
 
 
 def main():

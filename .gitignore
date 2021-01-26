@@ -1,3 +1,4 @@
 TODO
 .idea/
 postgresql-sqlascii-to-utf8.im
+__pycache__
