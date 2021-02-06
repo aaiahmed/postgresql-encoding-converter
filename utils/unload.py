@@ -6,15 +6,15 @@ from utils.execute import execute
 from utils.command import get_unload_command
 
 
-def unload_table(conf, table):
+def unload_table(table, conf):
     """
     Unloads the given table.
-    :param conf: config as dictionary.
     :param table: table name.
+    :param conf: config as dictionary.
     :return:
     """
 
-    command = get_unload_command(conf, table)
+    command = get_unload_command(table, conf)
     result = execute(command)
     if result.returncode != 0:
         raise RuntimeError(result.stderr)

@@ -5,15 +5,18 @@ import csv
 import codecs
 
 
-def read_csv(table, delimiter, error_handler):
+def convert_to_utf8(table, conf):
     """
     Opens the unloaded csv and converts into utf-8 encoding,
     handling error (if any) with the configured error handler.
-    :param table: Name of the table.
-    :param delimiter: Delimiter.
-    :param error_handler: Error handler, e.g. ignore, replace, backslashreplace. Refer to: https://docs.python.org/3/library/codecs.html#error-handlers
+    :param table: name of the table.
+    :param conf: config as dictionary.
     :return:
     """
+
+    delimiter = conf['postgres']['delimiter']
+    error_handler = conf['postgres']['error_handler']
+
     with open('temp/{table}.csv'.format(table=table), errors=error_handler, encoding='utf-8') as f, \
             open('temp/{table}.converted.csv'.format(table=table), 'w') as fw:
         reader = csv.reader(f, delimiter=delimiter)
@@ -21,11 +24,3 @@ def read_csv(table, delimiter, error_handler):
         for row in reader:
             row = [codecs.decode(item, 'unicode_escape') for item in row]
             writer.writerow(row)
-
-
-def main():
-    read_csv('raw.account', ',', 'backslashreplace')
-
-
-if __name__ == '__main__':
-    main()
