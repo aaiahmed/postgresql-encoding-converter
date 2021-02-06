@@ -1,4 +1,6 @@
--- create a test database with SQL_ASCII encoding.
+----------------------------------------------------------
+-- source database with SQL_ASCII encoding
+----------------------------------------------------------
 create database pg_sql_ascii_db
 with encoding 'SQL_ASCII'
      lc_ctype 'C'
@@ -6,13 +8,31 @@ with encoding 'SQL_ASCII'
      template template0
      owner etl;
 
--- create a schema.
+-- create a schema
 create schema if not exists raw;
 
--- create a test table.
+-- create a table to load some test data
 create table raw.account(
     account_id bigserial,
     account_name text);
 
--- insert some mixed encoding data
-insert into raw.account (account_name) values ('john'), ('Renée'), ('比嘉'), ('كنية‎'), ('চৌধুরী');
+-- insert some rows with mixed encoding
+insert into raw.account (account_name) values ('greg'), ('Renée'), ('比嘉'), ('كنية‎'), ('চৌধুরী');
+
+----------------------------------------------------------
+-- target database with SQL_ASCII encoding
+----------------------------------------------------------
+create database pg_sql_utf8
+with encoding 'UTF8'
+     lc_ctype 'en_US.UTF-8'
+	 lc_collate 'en_US.UTF-8'
+     template template0
+     owner etl;
+
+-- create a schema
+create schema if not exists raw;
+
+-- create a table to load some test data
+create table raw.account(
+    account_id bigserial,
+    account_name text);

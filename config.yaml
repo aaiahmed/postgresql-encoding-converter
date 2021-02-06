@@ -5,6 +5,6 @@ postgresql:
   database: "pg_sql_ascii_db"
   tables: ["raw.account"]
   delimiter: ","
-  unload_qry: "\\copy (select * from {table}) to '{filepath}' with csv header delimiter '{delimiter}';"
-  load_schema: "converted"
-  load_qry: ""
+  unload_qry: "\\copy (select * from {table}) to '{filepath}' with csv header delimiter '{delimiter}' encoding 'SQL_ASCII';"
+  load_qry: "\\copy (select * from {table}) from '{filepath}' with csv header delimiter '{delimiter}' encoding 'UTF8';"
+  error_handler: "backslashreplace"

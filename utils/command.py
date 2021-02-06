@@ -3,7 +3,7 @@ Generates the psql shell command.
 """
 
 
-def get_command(conf, table):
+def get_unload_command(conf, table):
     """
     Returns the shell command.
     :param conf: config as dictionary.

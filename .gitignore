@@ -1,4 +1,4 @@
-TODO
 .idea/
-postgresql-sqlascii-to-utf8.im
+postgresql-encoding-converter.iml
 __pycache__
+scratch

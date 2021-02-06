@@ -3,7 +3,7 @@ Unloads a table into temp folder as csv.
 """
 
 from utils.execute import execute
-from utils.command import get_command
+from utils.command import get_unload_command
 
 
 def unload_table(conf, table):
@@ -14,7 +14,7 @@ def unload_table(conf, table):
     :return:
     """
 
-    command = get_command(conf, table)
+    command = get_unload_command(conf, table)
     result = execute(command)
     if result.returncode != 0:
         raise RuntimeError(result.stderr)
