@@ -3,7 +3,7 @@ Copies a PostgreSQL table encoded in SQL_ASCII,
 converts to UTF-8 encoding and loads into a new schema for review.
 """
 from utils.config import get_config
-from utils.unload import unload_table
+from utils.query import unload_table, load_table
 from utils.convert import convert_to_utf8
 
 
@@ -14,13 +14,15 @@ def convert_table_encoding():
     """
 
     conf = get_config()
-    tables_for_conversion = conf['postgres']['source_tables']
+    src_tables = conf['postgres']['src_tables']
+    dst_tables = conf['postgres']['dst_tables']
 
-    for table in tables_for_conversion:
+    for i, table in enumerate(src_tables):
         unload_table(table, conf)
         convert_to_utf8(table, conf)
-        if conf['postgres']['load']:
-            pass  # TODO: add postgres loader
+
+        if conf['app']['load']:
+            load_table(dst_tables[i], conf)
 
 
 def main():

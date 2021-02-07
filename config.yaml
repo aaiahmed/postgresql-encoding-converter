@@ -2,11 +2,14 @@ postgres:
   host: "localhost"
   port: "5432"
   user: "etl"
-  database: "pg_sql_ascii_db"
-  source_tables: ["raw.account"]
-  target_tables: ["raw.account"]
-  delimiter: ","
+  src_db: "pg_sql_ascii_db"
+  src_tables: ["raw.account"]
+  dst_db: "pg_utf8_db"
+  dst_tables: ["raw.account"]
   unload_qry: "\\copy (select * from {table}) to '{filepath}' with csv header delimiter '{delimiter}' encoding 'SQL_ASCII';"
-  load_qry: "\\copy (select * from {table}) from '{filepath}' with csv header delimiter '{delimiter}' encoding 'UTF8';"
-  error_handler: "backslashreplace" # Refer to: Error handler, e.g. ignore, replace, backslashreplace. Refer to: https://docs.python.org/3/library/codecs.html#error-handlers
+  load_qry: "\\copy {table} from '{filepath}' with csv header delimiter '{delimiter}' encoding 'UTF8';"
+csv:
+  delimiter: ","
+  error_handler: "backslashreplace" # Refer to: https://docs.python.org/3/library/codecs.html#error-handlers
+app:
   load: True

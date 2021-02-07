@@ -14,8 +14,8 @@ def convert_to_utf8(table, conf):
     :return:
     """
 
-    delimiter = conf['postgres']['delimiter']
-    error_handler = conf['postgres']['error_handler']
+    delimiter = conf['csv']['delimiter']
+    error_handler = conf['csv']['error_handler']
 
     with open('temp/{table}.csv'.format(table=table), errors=error_handler, encoding='utf-8') as f, \
             open('temp/{table}.converted.csv'.format(table=table), 'w') as fw:
