@@ -3,13 +3,17 @@ postgres:
   port: "5432"
   user: "etl"
   src_db: "pg_sql_ascii_db"
-  src_tables: ["raw.account"]
+  src_schema: "raw"
+  src_tables: ["account"]
   dst_db: "pg_utf8_db"
-  dst_tables: ["raw.account"]
-  unload_qry: "\\copy (select * from {table}) to '{filepath}' with csv header delimiter '{delimiter}' encoding 'SQL_ASCII';"
-  load_qry: "\\copy {table} from '{filepath}' with csv header delimiter '{delimiter}' encoding 'UTF8';"
+  dst_schema: "raw"
+  dst_tables: ["account"]
+  unload_qry: "\\copy (select * from {schema}.{table}) to '{filepath}' with csv header delimiter '{delimiter}' encoding 'SQL_ASCII';"
+  load_qry: "\\copy {schema}.{table} from '{filepath}' with csv header delimiter '{delimiter}' encoding 'UTF8';"
+  ddl_qry: "select * from public.get_ddl_statement('{schema}', '{table}');"
 csv:
   delimiter: ","
   error_handler: "backslashreplace" # Refer to: https://docs.python.org/3/library/codecs.html#error-handlers
 app:
+  create: True
   load: True
