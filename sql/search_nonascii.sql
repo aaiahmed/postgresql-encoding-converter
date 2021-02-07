@@ -11,6 +11,7 @@ create function public.search_nonscii_characters(sch_name text, tbl_name text)
 
     begin
 
+    drop table if exists temp_non_ascii_content;
     create temp table temp_non_ascii_content (
         _sch_name text,
         _tbl_name text,

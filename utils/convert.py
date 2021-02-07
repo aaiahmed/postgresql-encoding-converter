@@ -3,6 +3,9 @@ Converts the raw unloaded file to uniform utf-8 encoding.
 """
 import csv
 import codecs
+from utils.logger import get_logger
+
+logger = get_logger()
 
 
 def convert_to_utf8(table, conf):
@@ -14,6 +17,8 @@ def convert_to_utf8(table, conf):
     :return:
     """
 
+    logger.info('Converting CSV: "csv/{table}.csv" into "csv/{table}.converted.csv" with utf-8 encoding..."'.format(
+        table=table))
     delimiter = conf['csv']['delimiter']
     error_handler = conf['csv']['error_handler']
 

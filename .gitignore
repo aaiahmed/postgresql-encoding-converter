@@ -2,3 +2,4 @@
 postgresql-encoding-converter.iml
 __pycache__
 scratch
+*.log
