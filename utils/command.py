@@ -3,6 +3,8 @@ Generates the psql shell command.
 """
 import os
 import psycopg2
+import traceback
+
 
 def get_unload_command(table, conf):
     """
@@ -18,7 +20,7 @@ def get_unload_command(table, conf):
     user = conf['postgres']['user']
     delimiter = conf['csv']['delimiter']
     unload_qry = conf['postgres']['unload_qry'].format(
-        schema=schema, table=table, filepath='temp/{table}.csv'.format(table=table), delimiter=delimiter)
+        schema=schema, table=table, filepath='csv/{table}.csv'.format(table=table), delimiter=delimiter)
     return ["psql", "-h", host, "-p", port, "-U", user, "-d", database, "-c", unload_qry]
 
 
@@ -36,7 +38,7 @@ def get_load_command(table, conf):
     user = conf['postgres']['user']
     delimiter = conf['csv']['delimiter']
     load_qry = conf['postgres']['load_qry'].format(
-        schema=schema, table=table, filepath='temp/{table}.converted.csv'.format(table=table), delimiter=delimiter)
+        schema=schema, table=table, filepath='csv/{table}.converted.csv'.format(table=table), delimiter=delimiter)
     return ["psql", "-h", host, "-p", port, "-U", user, "-d", database, "-c", load_qry]
 
 
@@ -56,6 +58,12 @@ def get_ddl_command(table, conf):
 
 
 def get_ddl_statement(table, conf):
+    """
+    Returns the DDL create table statement for the given table.
+    :param table: table name.
+    :param conf: config as dictionary.
+    :return: DDL statement.
+    """
     host = conf['postgres']['host']
     port = conf['postgres']['port']
     database = conf['postgres']['src_db']
@@ -72,5 +80,5 @@ def get_ddl_statement(table, conf):
         cursor = conn.cursor()
         cursor.execute(ddl_qry)
         return cursor.fetchone()[0]
-    except:
-        pass
+    except psycopg2.Error:
+        raise RuntimeError(traceback.format_exc())
